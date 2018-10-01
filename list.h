@@ -32,8 +32,10 @@ data_t get_head(list_t *list);
 list_t *get_tail(list_t *list);
 
 // stage0
-char* getInput();
+char** getInput();
 list_t* buildList();
-void stage0(char* input);
+void stage0(char** input);
 
+extern size_t stringLength;
+extern size_t cNewline; // == no. of edges on the multigraph
 /* end function prototypes ---------------------------------------------------*/

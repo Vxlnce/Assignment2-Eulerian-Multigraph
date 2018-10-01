@@ -4,10 +4,11 @@
 int main() {
     buildList();
 
-    char* array = getInput();
+    char** array = getInput();
     stage0(array);
 
-    printf("Hello World!\n");
+    // printf("%i\n", stringLength);
+
     return 0;
 
 }

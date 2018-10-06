@@ -31,7 +31,7 @@
    or sought benefit from such actions.
 
    Signed by: Charlie Hutcheson 995351
-   Dated:     WED 03/10/2018 6:27PM
+   Dated:     2018-10-03 18:27:32
 
 */
 
@@ -48,7 +48,6 @@ int main(int argc, char** argv) {
     buildList();
 
     char* array = getInput();
-    char** delimArr = delimInput(array);
 
      printf("%s\n", array);
 

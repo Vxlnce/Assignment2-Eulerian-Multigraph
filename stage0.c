@@ -33,39 +33,25 @@ char* getInput() {
 
 }
 
-char** delimInput(char* input){
+edge_t* delimInput(char* input, edge_t* delim){
 
     char* _input;
-    _input = (char*)malloc(sizeof(input));
     strcpy(_input, input);
-    
-    char** delimArr;
-    delimArr = (char**)malloc(sizeof(char) * stringLength);
 
-    char* pch;
-    pch = strtok (input," \n");
+    delim = (edge_t*)malloc(sizeof(edge_t));
 
-    int i = 0, j = 0;
+    if (delim != NULL){
 
-    for (int _i = 0; input[_i] != NULL; _i++){
+        char* token;
+        token = strtok(token, "\n");
 
-        strcpy(delimArr[i][j], pch);
+        while(token =! NULL){
 
-        if((j) % 3 == 0 && j != 0){
+            
 
-            j = 0;
-            i++;
-
-        }
-        else {
-
-            j++;
-
-        }
+        } 
 
     }
-
-    return delimArr;
 
 }
 

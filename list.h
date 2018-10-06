@@ -2,6 +2,12 @@
 #include <stdlib.h>
 #include <assert.h>
 
+/* externs */
+extern char startingPoint;
+extern size_t stringLength;
+extern size_t cNewline; // == no. of edges on the multigraph
+extern size_t nVertex; // total number of vertices in the graph
+
 /* type definitions ----------------------------------------------------------*/
 
 typedef int data_t;
@@ -30,12 +36,11 @@ list_t *insert_at_head(list_t*, data_t);
 list_t *insert_at_foot(list_t *list, data_t value);
 data_t get_head(list_t *list);
 list_t *get_tail(list_t *list);
+char** delimInput(char* input);
 
 // stage0
-char** getInput();
+char* getInput();
 list_t* buildList();
 void stage0(char** input);
 
-extern size_t stringLength;
-extern size_t cNewline; // == no. of edges on the multigraph
 /* end function prototypes ---------------------------------------------------*/

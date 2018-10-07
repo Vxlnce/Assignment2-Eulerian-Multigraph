@@ -9,10 +9,13 @@ size_t cNewline = 0; // -> number of 'edges' in stdin
 size_t nVertex;
 
 // stdin to char*
-char* getInput() {
+void getInput(char* string) {
 
     char* inArr = (char*)malloc(sizeof(char));
-	int i = 0;
+	
+    size_t capacity = 0xff;
+
+    int i = 0;
 
 	char c;
 
@@ -22,32 +25,58 @@ char* getInput() {
 
 		inArr[i] = c;
 		i++;
-        inArr = (char*)realloc(inArr, sizeof(char));
+        inArr = (char*)realloc(inArr, sizeof(char) * i);
 
 	}
 
     stringLength = i;
     inArr[i+1] = '\0'; //final nullbyte close string
     
-    return inArr;
+
 
 }
 
-edge_t* delimInput(char* input, edge_t* delim){
+void delimInput(char* input, edge_t* delim){
 
     char* _input;
     strcpy(_input, input);
 
-    delim = (edge_t*)malloc(sizeof(edge_t));
+    delim = (edge_t*)malloc(sizeof(edge_t) * cNewline);
 
     if (delim != NULL){
 
+        int i = 0;
         char* token;
-        token = strtok(token, "\n");
+        token = strtok(_input, "\n");
 
         while(token =! NULL){
 
-            
+            char* _token;
+            _token = strtok(token, " ");
+
+            int itr = 0;
+
+            while (_token != NULL){
+
+                if (itr == 0){ // frst var on line -> sVertex
+
+                    strcpy(delim[i].sVertex, _token);
+
+                }
+                if (itr == 1){ // scnd var on line -> eVertex
+
+                    strcpy(delim[i].eVertex, _token);
+
+                }
+                if (itr == 2){ // thrd var on line -> edge value
+
+                    strcpy(delim[i].value, atoi(_token));
+
+                }
+
+                itr++;
+
+            }
 
         } 
 

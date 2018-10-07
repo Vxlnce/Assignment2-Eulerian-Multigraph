@@ -1,74 +1,79 @@
-#include "list.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 
-size_t stringLength;
-size_t cNewline = 0;
+int strLen = 0;
+int nl = 0;
 
-char** getInput() {
+typedef struct edge {
 
+	int value;
+	char sVertex;
+	char eVertex;
+
+} edge_t;
+
+void getInput(char* string) {
+
+    size_t capacity = 0xff;
     char* inArr = (char*)malloc(sizeof(char));
 	int i = 0;
 
 	char c;
 
 	while((c = getchar()) != EOF) {
-       
-        if (c == '\n'){ cNewline++;/*= cNewline;*/ }
+        if (capacity == i) {capacity *= 2;}
+        if (c == '\n') {nl++;}
 
 		inArr[i] = c;
 		i++;
-        inArr = (char*)realloc(inArr, sizeof(char));
+        inArr = (char*)realloc(inArr, sizeof(char) * capacity);
 
 	}
 
-    stringLength = i;
+    strLen = i;
     inArr[i+1] = '\0'; //final nullbyte close string
-    
-    char* pch;
-    pch = strtok(inArr, " \n");
-    int itr = 0;
-    char** tokenArr;
-    tokenArr = (char**)malloc(sizeof(char) * stringLength);
-    if (tokenArr != NULL) {
-        while (pch != NULL){
-
-            strcpy(tokenArr[itr], pch);
-            tokenArr = realloc(tokenArr, sizeof(char) * stringLength);
-            itr++;
-
-        }
-    }
-	return tokenArr;
 
 }
-// putting info about multigraph into a linked list
-list_t* buildList() {
 
-    // pre malloc'd in fn...
-    list_t* list = make_empty_list();
-    assert(is_empty_list(list));
+void fillArray(edge_t* array){
 
-    return list;
+    int i = 0;
+
+    for (i; i < nl; i++){
+
+            /*array[i] = (edge_t) {
+                .sVertex = 'a',
+                .eVertex = 'A',
+                .value = 1
+            };*/
+
+            array[i].sVertex = 'a';
+            array[i].eVertex = 'A';
+            array[i].value = 12;
+
+    }
 
 }
-#pragma endregion getting input from stdin and building list
 
-void stage0(char** input){
+int main(){
 
-    int i = 0, j = 0;
-    char* fVertex = (char*)malloc(sizeof(char));
+    char* str;
+    str = (char*)malloc(sizeof(char) * strLen);
+    getInput(str);
 
-    if (!fVertex){
-        
-        for (i = 0; i < stringLength; i++); { // TODO: make for loop count vertices
+    edge_t* array;
+    array = (edge_t*)malloc(sizeof(edge_t) * nl);
 
+    fillArray(array);
 
+    int i = 0;
+    for (i; i < nl; i++){
 
-            
+        printf("%c, %c, %d\n", array[i].sVertex, array[i].eVertex, array[i].value);
 
-        }
-    
     }
-       
-        printf("\ncNewline: %lu\nstringLength: %lu\n", cNewline, stringLength);
+
+    return 0;
 
 }

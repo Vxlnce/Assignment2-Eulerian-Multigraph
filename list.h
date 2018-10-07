@@ -22,6 +22,13 @@ typedef struct edge {
 
 } edge_t;
 
+typedef struct vertex {
+
+	size_t degree;
+	char vertex;
+
+} vertex_t;
+
 struct node {
 	data_t data;
 	node_t *next;
@@ -44,7 +51,7 @@ list_t *insert_at_head(list_t*, data_t);
 list_t *insert_at_foot(list_t *list, data_t value);
 data_t get_head(list_t *list);
 list_t *get_tail(list_t *list);
-edge_t* delimInput(char* input, edge_t* delim);
+void delimInput(char* input, edge_t* delim);
 
 // stage0
 char* getInput();

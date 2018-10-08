@@ -54,7 +54,7 @@ list_t *get_tail(list_t *list);
 void delimInput(char* input, edge_t* delim);
 
 // stage0
-char* getInput();
+void getInput(char* string) {
 list_t* buildList();
 void stage0(char** input);
 

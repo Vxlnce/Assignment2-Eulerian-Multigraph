@@ -10,14 +10,13 @@ typedef struct edge {
 	int value;
 	char sVertex;
 	char eVertex;
-    
 
 } edge_t;
 
 void getInput(char* string) {
 
     size_t capacity = 0xff;
-    char* inArr = (char*)malloc(sizeof(char) * capacity);
+    char* inArr = (char*)malloc(sizeof(char));
 	int i = 0;
 
 	char c;
@@ -37,38 +36,22 @@ void getInput(char* string) {
 
 }
 
-void fillArray(edge_t** array, char* strIn){
-
-    const char* s = " \n"; // splits at space and \n delimits
-    char *token;
+void fillArray(edge_t* array){
 
     int i = 0;
 
-    /* get the first token */
-    token = strtok(strIn, s);
-   
-    strcpy(*array[i].sVertex, token);
-    
-    i++;
-    int cArray;// count elements in array, (+1 in while)
+    for (i; i < nl; i++){
 
-    /* walk through other tokens */
-    while( token != NULL ) {
-        
-        i++;
-        cArray = i + 1; 
-        token = strtok(NULL, s);
+            /*array[i] = (edge_t) {
+                .sVertex = 'a',
+                .eVertex = 'A',
+                .value = 1
+            };*/
 
-        if (cArray % 3 == 0){
-            strcpy(array[i].value, token);
-        }
-        else if (cArray % 2 == 0){
-            strcpy(array[i].eVertex, token);
-        }
-        else{
-            strcpy(array[i].sVertex, token);
-        }
-        
+            array[i].sVertex = 'a';
+            array[i].eVertex = 'A';
+            array[i].value = 12;
+
     }
 
 }
@@ -82,7 +65,7 @@ int main(){
     edge_t* array;
     array = (edge_t*)malloc(sizeof(edge_t) * nl);
 
-    fillArray(&array, str);
+    fillArray(array);
 
     int i = 0;
     for (i; i < nl; i++){
@@ -94,25 +77,3 @@ int main(){
     return 0;
 
 }
-
-
-/*  DO LOOP FOR TOKENS
-
-        
-        do{
-            token = strtok(_strIn, nlDelim);
-            if (_i == 0){ // frst val -> start vertex
-                            strcpy(array[i].sVertex, token);
-                        }
-                        if(_i == 1){ // scnd val -> end vertex
-                            strcpy(array[i].eVertex, token);
-                        }
-                        if(_i == 2){ // thrd val -> value of edge
-                            strcpy(array[i].value, atoi(token));
-                        }
-                        _i++;
-                    }
-                    while (token != NULL);
-
-
-*/

@@ -20,7 +20,8 @@ void getInput(char* string) {
 	char c;
 
 	while((c = getchar()) != EOF) {
-       
+        
+        if (capacity == i) {capacity *= 2;}
         if (c == '\n'){ cNewline++;/*= cNewline;*/ }
 
 		inArr[i] = c;
@@ -99,10 +100,11 @@ list_t* buildList() {
 void stage0(char** input){
 
     int i = 0, j = 0;
-    char* fVertex = (char*)malloc(sizeof(char));
-    int* cVertex = (int)malloc(sizeof(int));
+    size_t capacity = 0xff;
+    char* fVertex = (char*)malloc(sizeof(char) * capacity);
+    int* cVertex = (int)malloc(sizeof(int) * capacity);
 
-    if (!fVertex){
+    if (fVertex != NULL && cVertex != NULL){
         
         for (i = 0; i < stringLength; i++); { // TODO: make for loop count vertices
 
@@ -118,7 +120,10 @@ void stage0(char** input){
                     nVertex++;
                     strcpy(fVertex[j], input[i]);
                     cVertex++;
-                    fVertex = realloc(fVertex, sizeof(char));
+                    if (i == capacity){
+                        capacity *= 2;
+                        fVertex = realloc(fVertex, sizeof(char) * capacity);
+                        }
                     cVertex = realloc(cVertex, sizeof(int));
 
                 }

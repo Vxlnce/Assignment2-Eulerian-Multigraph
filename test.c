@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <assert.h>
 
 int strLen = 0;
 int nl = 0;
@@ -10,13 +11,14 @@ typedef struct edge {
 	int value;
 	char sVertex;
 	char eVertex;
+    
 
 } edge_t;
 
 void getInput(char* string) {
 
     size_t capacity = 0xff;
-    char* inArr = (char*)malloc(sizeof(char));
+    char* inArr = (char*)malloc(sizeof(char) * capacity);
 	int i = 0;
 
 	char c;
@@ -36,22 +38,45 @@ void getInput(char* string) {
 
 }
 
-void fillArray(edge_t* array){
+void fillArray(edge_t** array, char* strIn){
+
+
+
+    size_t arrCapacity = sizeof(edge_t) * nl;
+    const char* s = " \n"; // splits at space and \n delimits
+    char *token;
 
     int i = 0;
 
-    for (i; i < nl; i++){
+    /* get the first token */
+    token = strtok(strIn, s);
+    // array = (edge_t*)realloc(array, sizeof(int) * (strlen(token)+1));
+    assert(array);
+    (*array)[i].sVertex = *token;
+    
+    i++;
+    int cArray;// count elements in array, (+1 in while)
 
-            /*array[i] = (edge_t) {
-                .sVertex = 'a',
-                .eVertex = 'A',
-                .value = 1
-            };*/
+    /* walk through other tokens */
+    while( token != NULL ) {
+        
+        i++;
+        cArray = i + 1; 
+        token = strtok(NULL, s);
 
-            array[i].sVertex = 'a';
-            array[i].eVertex = 'A';
-            array[i].value = 12;
-
+        if (cArray % 3 == 0){
+            array = (edge_t*)realloc(array, sizeof(int) * (strlen(token)+1));
+            (*array)[i].value = atoi(token);
+        }
+        else if (cArray % 2 == 0){
+            array = (edge_t*)realloc(array, sizeof(char) * (strlen(token)+1));
+            (*array)[i].eVertex = *token;
+        }
+        else{
+            array = (edge_t*)realloc(array, sizeof(char) * (strlen(token)+1));
+            (*array)[i].sVertex = *token;
+        }
+        
     }
 
 }
@@ -65,7 +90,7 @@ int main(){
     edge_t* array;
     array = (edge_t*)malloc(sizeof(edge_t) * nl);
 
-    fillArray(array);
+    fillArray(array, str);
 
     int i = 0;
     for (i; i < nl; i++){

@@ -44,21 +44,20 @@ char startingPoint;
 int main(int argc, char** argv) {
     
     startingPoint = argv[1];
-    edge_t* graph;
 
-    buildList();
+    char* str;
+    str = getInput(&str);
+    edge_t* array;
+    array = (edge_t*)malloc((sizeof(edge_t) * cNewline) * 0xfff);
 
-    char* array = getInput();
+    fillArray(array, str);
 
-    delimInput(array, graph);
+    int i = 0;
+    for (i; i < cNewline; i++){
 
-     printf("\n%s\n", array);
-     int i = 0;
-     while (i < cNewline){
-      
-        printf("%c, %c, %d\n", graph[i].sVertex, graph[i].eVertex, graph[i].value);
+        printf("%c, %c, %d\n", array[i].sVertex, array[i].eVertex, array[i].value);
 
-     }
+    }
 
     return 0;
 

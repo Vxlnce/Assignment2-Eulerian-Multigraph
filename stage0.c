@@ -9,92 +9,76 @@ size_t cNewline = 0; // -> number of 'edges' in stdin
 size_t nVertex;
 
 // stdin to char*
-void getInput(char* string) {
 
-    char* inArr = (char*)malloc(sizeof(char));
-	
+char* getInput(char** string) {
+
     size_t capacity = 0xff;
-
-    int i = 0;
+    char* inArr = (char*)malloc(sizeof(char) * capacity);
+	int i = 0;
 
 	char c;
 
 	while((c = getchar()) != EOF) {
-        
         if (capacity == i) {capacity *= 2;}
-        if (c == '\n'){ cNewline++;/*= cNewline;*/ }
+        if (c == '\n') {cNewline++;}
 
 		inArr[i] = c;
 		i++;
-        inArr = (char*)realloc(inArr, sizeof(char) * i);
+        inArr = (char*)realloc(inArr, sizeof(char) * capacity);
 
 	}
 
     stringLength = i;
     inArr[i+1] = '\0'; //final nullbyte close string
-    
-
+    *string = (char*)malloc(capacity);
+    strcpy(*string, inArr);
+    return *string;
 
 }
 
-void delimInput(char* input, edge_t* delim){
+void fillArray(edge_t* array, char* strIn){
+    
+    char* string = strdup(strIn);
 
-    char* _input;
-    strcpy(_input, input);
+    const char* s = " \n"; // splits at space and \n delimits
+    char *token;
 
-    delim = (edge_t*)malloc(sizeof(edge_t) * cNewline);
+    int i = 0;
 
-    if (delim != NULL){
+    /* get the first token */
+    token = strtok(string, s);
+    
 
-        int i = 0;
-        char* token;
-        token = strtok(_input, "\n");
+    
+    int cArray = 0;// count elements in array, (+1 in while)
 
-        while(token =! NULL){
-
-            char* _token;
-            _token = strtok(token, " ");
-
-            int itr = 0;
-
-            while (_token != NULL){
-
-                if (itr == 0){ // frst var on line -> sVertex
-
-                    strcpy(delim[i].sVertex, _token);
-
-                }
-                if (itr == 1){ // scnd var on line -> eVertex
-
-                    strcpy(delim[i].eVertex, _token);
-
-                }
-                if (itr == 2){ // thrd var on line -> edge value
-
-                    strcpy(delim[i].value, atoi(_token));
-
-                }
-
-                itr++;
-
-            }
-
-        } 
+    /* walk through other tokens */
+    while( token != NULL ) {
+        
+        if (cArray == 2){
+            array[i].value = atoi(token);
+            cArray = 0;
+            
+        }
+        else if (cArray == 1){
+            array[i].eVertex = *token;
+            cArray++;
+            
+        }
+        else if (cArray == 0){
+            array[i].sVertex = *token;
+            cArray++;
+        }
+        
+        if (cArray == 0)i++;
+         
+        token = strtok(NULL, s);
 
     }
 
 }
 
-// putting info about multigraph into a linked list
-list_t* buildList() {
 
-    // pre malloc'd in fn...
-    list_t* list = make_empty_list();
-    assert(is_empty_list(list));
-
-    return list;
-
-}
 #pragma endregion getting input from stdin and building list
 
 void stage0(char** input){

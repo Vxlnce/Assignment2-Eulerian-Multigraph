@@ -5,6 +5,7 @@
 
 int strLen = 0;
 int nl = 0;
+int nVertex = 0;
 
 typedef struct edge {
 
@@ -18,12 +19,22 @@ typedef struct edge {
 char* getInput(char** string) {
 
     size_t capacity = 0xff;
+    size_t maxVertex = 0x35;
+    char* vertex = (char*)malloc(sizeof(char) * maxVertex);
     char* inArr = (char*)malloc(sizeof(char) * capacity);
 	int i = 0;
 
 	char c;
 
 	while((c = getchar()) != EOF) {
+
+        if (strstr(vertex, c) == NULL){
+
+            vertex[strlen(vertex)] = c;
+            nVertex++;
+
+        }
+
         if (capacity == i) {capacity *= 2;}
         if (c == '\n') {nl++;}
 
@@ -42,8 +53,6 @@ char* getInput(char** string) {
 }
 
 void fillArray(edge_t* array, char* strIn){
-    
-    size_t arrCapacity = sizeof(edge_t) * nl;
 
     char* string = strdup(strIn);
 
@@ -54,33 +63,33 @@ void fillArray(edge_t* array, char* strIn){
 
     /* get the first token */
     token = strtok(string, s);
-    //*array = (edge_t*)realloc(array, arrCapacity * (strlen(token)+1));
-
-    array[i].sVertex = *token;
     
-    i++;
-    int cArray;// count elements in array, (+1 in while)
+
+    
+    int cArray = 0;// count elements in array, (+1 in while)
 
     /* walk through other tokens */
     while( token != NULL ) {
         
-        i++;
-        cArray = i + 1; 
-        token = strtok(NULL, s);
-
-        if (cArray % 3 == 0){
-            //*array = (edge_t*)realloc(array, sizeof(int) * (strlen(token)+1));
+        if (cArray == 2){
             array[i].value = atoi(token);
+            cArray = 0;
+            
         }
-        else if (cArray % 2 == 0){
-            //*array = (edge_t*)realloc(array, sizeof(char) * (strlen(token)+1));
+        else if (cArray == 1){
             array[i].eVertex = *token;
+            cArray++;
+            
         }
-        else{
-            //*array = (edge_t*)realloc(array, sizeof(char) * (strlen(token)+1));
+        else if (cArray == 0){
             array[i].sVertex = *token;
+            cArray++;
         }
         
+        if (cArray == 0)i++;
+         
+        token = strtok(NULL, s);
+
     }
 
 }
@@ -98,8 +107,10 @@ int main(){
     for (i; i < nl; i++){
 
         printf("%c, %c, %d\n", array[i].sVertex, array[i].eVertex, array[i].value);
-
+        
     }
+
+    printf("%d\n", nVertex);
 
     return 0;
 

@@ -15,7 +15,7 @@ typedef struct edge {
 
 } edge_t;
 
-void getInput(char* string) {
+char* getInput(char** string) {
 
     size_t capacity = 0xff;
     char* inArr = (char*)malloc(sizeof(char) * capacity);
@@ -35,24 +35,28 @@ void getInput(char* string) {
 
     strLen = i;
     inArr[i+1] = '\0'; //final nullbyte close string
+    *string = (char*)malloc(capacity);
+    strcpy(*string, inArr);
+    return *string;
 
 }
 
-void fillArray(edge_t** array, char* strIn){
-
-
-
+void fillArray(edge_t* array, char* strIn){
+    
     size_t arrCapacity = sizeof(edge_t) * nl;
+
+    char* string = strdup(strIn);
+
     const char* s = " \n"; // splits at space and \n delimits
     char *token;
 
     int i = 0;
 
     /* get the first token */
-    token = strtok(strIn, s);
-    // array = (edge_t*)realloc(array, sizeof(int) * (strlen(token)+1));
-    assert(array);
-    (*array)[i].sVertex = *token;
+    token = strtok(string, s);
+    //*array = (edge_t*)realloc(array, arrCapacity * (strlen(token)+1));
+
+    array[i].sVertex = *token;
     
     i++;
     int cArray;// count elements in array, (+1 in while)
@@ -65,16 +69,16 @@ void fillArray(edge_t** array, char* strIn){
         token = strtok(NULL, s);
 
         if (cArray % 3 == 0){
-            array = (edge_t*)realloc(array, sizeof(int) * (strlen(token)+1));
-            (*array)[i].value = atoi(token);
+            //*array = (edge_t*)realloc(array, sizeof(int) * (strlen(token)+1));
+            array[i].value = atoi(token);
         }
         else if (cArray % 2 == 0){
-            array = (edge_t*)realloc(array, sizeof(char) * (strlen(token)+1));
-            (*array)[i].eVertex = *token;
+            //*array = (edge_t*)realloc(array, sizeof(char) * (strlen(token)+1));
+            array[i].eVertex = *token;
         }
         else{
-            array = (edge_t*)realloc(array, sizeof(char) * (strlen(token)+1));
-            (*array)[i].sVertex = *token;
+            //*array = (edge_t*)realloc(array, sizeof(char) * (strlen(token)+1));
+            array[i].sVertex = *token;
         }
         
     }
@@ -84,11 +88,9 @@ void fillArray(edge_t** array, char* strIn){
 int main(){
 
     char* str;
-    str = (char*)malloc(sizeof(char) * strLen);
-    getInput(str);
-
+    str = getInput(&str);
     edge_t* array;
-    array = (edge_t*)malloc(sizeof(edge_t) * nl);
+    array = (edge_t*)malloc((sizeof(edge_t) * nl) * 0xfff);
 
     fillArray(array, str);
 

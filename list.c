@@ -1,81 +1,97 @@
 #include "list.h"
 
-list_t
-*make_empty_list(void) {
-	list_t *list;
-	list = (list_t*)malloc(sizeof(*list));
-	assert(list!=NULL);
-	list->head = list->foot = NULL;
-	return list;
-}
+#pragma 
+//length of stdin stream counted in getInput
+int stringLength;
+int cNewline = 0; // -> number of 'edges' in stdin
+int nVertex;
 
-int
-is_empty_list(list_t *list) {
-	assert(list!=NULL);
-	return list->head==NULL;
-}
+// stdin to char*
 
-void
-free_list(list_t *list) {
-	node_t *curr, *prev;
-	assert(list!=NULL);
-	curr = list->head;
-	while (curr) {
-		prev = curr;
-		curr = curr->next;
-		free(prev);
+char* getInput(char** string, vertex_t* arrVertex) {
+
+    size_t capacity = 0xff;
+    size_t maxVertex = 0x35;
+    char* vertex = (char*)malloc(sizeof(char) * maxVertex);
+    char* inArr = (char*)malloc(sizeof(char) * capacity);
+	int i = 0;
+
+	char c;
+
+	while((c = getchar()) != EOF) {
+        
+        char* resptr = strchr((*arrVertex).vertex, c);
+        
+
+        if (resptr == NULL && !isspace(c) && !isdigit(c)){
+            
+            (*arrVertex).vertex[strlen((*arrVertex).vertex)] = c;
+            (*arrVertex).degree[strlen((*arrVertex).vertex)] = 1;
+            nVertex++;
+
+        } 
+        else if (!isspace(c) && !isdigit(c)){
+            // grab index and itr
+            int position = resptr - (*arrVertex).vertex;
+            (*arrVertex).degree[position]++;
+
+        }
+
+        if (capacity == i) {capacity *= 2;}
+        if (c == '\n') {cNewline++;}
+
+		inArr[i] = c;
+		i++;
+        inArr = (char*)realloc(inArr, sizeof(char) * capacity);
+
 	}
-	free(list);
+
+    stringLength = i;
+    inArr[i+1] = '\0'; //final nullbyte close string
+    *string = (char*)malloc(capacity);
+    strcpy(*string, inArr);
+    return *string;
+
 }
 
-list_t
-*insert_at_head(list_t *list, data_t value) {
-	node_t *_new;
-	_new = (node_t*)malloc(sizeof(*_new));
-	assert(list!=NULL && _new!=NULL);
-	_new->data = value;
-	_new->next = list->head;
-	list->head = _new;
-	if (list->foot==NULL) {
-		/* this is the first insertion into the list */
-		list->foot = _new;
-	}
-	return list;
-}
+void fillArray(edge_t* array, char* strIn){
+    
+    char* string = strdup(strIn);
 
-list_t
-*insert_at_foot(list_t *list, data_t value) {
-	node_t *_new;
-	_new = (node_t*)malloc(sizeof(*_new));
-	assert(list!=NULL && _new!=NULL);
-	_new->data = value;
-	_new->next = NULL;
-	if (list->foot==NULL) {
-		/* this is the first insertion into the list */
-		list->head = list->foot = _new;
-	} else {
-		list->foot->next = _new;
-		list->foot = _new;
-	}
-	return list;
-}
+    const char* s = " \n"; // splits at space and \n delimits
+    char *token;
 
-data_t
-get_head(list_t *list) {
-	assert(list!=NULL && list->head!=NULL);
-	return list->head->data;
-}
+    int i = 0;
 
-list_t
-*get_tail(list_t *list) {
-	node_t *oldhead;
-	assert(list!=NULL && list->head!=NULL);
-	oldhead = list->head;
-	list->head = list->head->next;
-	if (list->head==NULL) {
-		/* the only list node just got deleted */
-		list->foot = NULL;
-	}
-	free(oldhead);
-	return list;
+    /* get the first token */
+    token = strtok(string, s);
+    
+
+    
+    int cArray = 0;// count elements in array, (+1 in while)
+
+    /* walk through other tokens */
+    while( token != NULL ) {
+        
+        if (cArray == 2){
+            array[i].value = atoi(token);
+            cArray = 0;
+            
+        }
+        else if (cArray == 1){
+            array[i].eVertex = *token;
+            cArray++;
+            
+        }
+        else if (cArray == 0){
+            array[i].sVertex = *token;
+            cArray++;
+        }
+        
+        if (cArray == 0)i++;
+         
+        token = strtok(NULL, s);
+
+    }
+
 }

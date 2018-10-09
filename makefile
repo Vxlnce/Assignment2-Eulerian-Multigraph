@@ -1,6 +1,6 @@
 CC=gcc
 CFLAGS=-I.
-DEPS = list.h
+DEPS = list.h stage0.h
 OBJ = list.o main.o stage0.o
 
 %.o: %.c $(DEPS)

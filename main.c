@@ -35,29 +35,34 @@
 
 */
 
-
-#include <stdio.h>
 #include "list.h"
+#include "stage0.h"
 
 char startingPoint;
 
 int main(int argc, char** argv) {
     
-    startingPoint = argv[1];
+    startingPoint = *argv[1]; // grab first arg in console
+
+    size_t maxVertex = 0x35;
+    vertex_t arrVertex;
+    arrVertex.vertex = (char*)malloc(sizeof(char) * maxVertex);
+    arrVertex.degree = (int*)malloc(sizeof(int) * maxVertex);
 
     char* str;
-    str = getInput(&str);
-    edge_t* array;
-    array = (edge_t*)malloc((sizeof(edge_t) * cNewline) * 0xfff);
+    str = getInput(&str, &arrVertex);
+    edge_t* arrEdge;
+    arrEdge = (edge_t*)malloc((sizeof(edge_t) * cNewline) * 0xfff);
 
-    fillArray(array, str);
+    fillArray(arrEdge, str);
 
-    int i = 0;
-    for (i; i < cNewline; i++){
+    for (int i = 0; i < nVertex; i++){
 
-        printf("%c, %c, %d\n", array[i].sVertex, array[i].eVertex, array[i].value);
+        
 
     }
+
+    stage0(arrEdge, arrVertex);
 
     return 0;
 

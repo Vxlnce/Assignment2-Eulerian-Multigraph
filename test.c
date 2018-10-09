@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>
+#include <ctype.h>
 
 int strLen = 0;
 int nl = 0;
@@ -16,7 +17,14 @@ typedef struct edge {
 
 } edge_t;
 
-char* getInput(char** string) {
+typedef struct vertex {
+
+    int* degree;
+    char* vertex;
+
+} vertex_t;
+
+char* getInput(char** string, vertex_t* arrVertex) {
 
     size_t capacity = 0xff;
     size_t maxVertex = 0x35;
@@ -27,11 +35,21 @@ char* getInput(char** string) {
 	char c;
 
 	while((c = getchar()) != EOF) {
+        
+        char* resptr = strchr((*arrVertex).vertex, c);
+        
 
-        if (strstr(vertex, c) == NULL){
-
-            vertex[strlen(vertex)] = c;
+        if (resptr == NULL && !isspace(c) && !isdigit(c)){
+            
+            (*arrVertex).vertex[strlen((*arrVertex).vertex)] = c;
+            (*arrVertex).degree[strlen((*arrVertex).vertex)] = 1;
             nVertex++;
+
+        } 
+        else if (!isspace(c) && !isdigit(c)){
+            // grab index and itr
+            int position = resptr - (*arrVertex).vertex;
+            (*arrVertex).degree[position]++;
 
         }
 
@@ -96,21 +114,20 @@ void fillArray(edge_t* array, char* strIn){
 
 int main(){
 
+    size_t maxVertex = 0x35;
+    vertex_t arrVertex;
+    arrVertex.vertex = (char*)malloc(sizeof(char) * maxVertex);
+    arrVertex.degree = (int*)malloc(sizeof(int) * maxVertex);
+
     char* str;
-    str = getInput(&str);
+    str = getInput(&str, &arrVertex);
     edge_t* array;
     array = (edge_t*)malloc((sizeof(edge_t) * nl) * 0xfff);
 
     fillArray(array, str);
 
-    int i = 0;
-    for (i; i < nl; i++){
 
-        printf("%c, %c, %d\n", array[i].sVertex, array[i].eVertex, array[i].value);
-        
-    }
-
-    printf("%d\n", nVertex);
+    printf("%s, degree[1](a): %d\n", arrVertex.vertex, arrVertex.degree[1]);
 
     return 0;
 

@@ -5,6 +5,7 @@
 #include <assert.h>
 #include <ctype.h>
 #include <string.h>
+#include <stdbool.h>
 
 /* type definitions ----------------------------------------------------------*/
 

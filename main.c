@@ -37,6 +37,7 @@
 
 #include "list.h"
 #include "stage0.h"
+#include "stage1.h"
 
 char startingPoint;
 
@@ -56,13 +57,8 @@ int main(int argc, char** argv) {
 
     fillArray(arrEdge, str);
 
-    for (int i = 0; i < nVertex; i++){
-
-        
-
-    }
-
     stage0(arrEdge, arrVertex);
+    
 
     return 0;
 

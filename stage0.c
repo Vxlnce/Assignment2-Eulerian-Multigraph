@@ -40,10 +40,6 @@ void stage0(edge_t* arrEdge, vertex_t arrVertex){
     const char* eulerian = "S0: Multigraph is Eulerian";
     const char* transversible = "S0: Multigraph is traversable";
 
-
-
-    
-
     int i;
     // value finding
     for (i = 0; i < cNewline; i++){
@@ -56,6 +52,7 @@ void stage0(edge_t* arrEdge, vertex_t arrVertex){
     // degree finding
     for (i = 0; i < nVertex; i++){
 
+        // TODO.: fix degrees in first value in stdin FIXED
         if (arrVertex.degree[i] % 2 == 0){evenVertex++;}
         else{oddVertex++;}
 
@@ -65,8 +62,8 @@ void stage0(edge_t* arrEdge, vertex_t arrVertex){
     puts("--------------");
     
     printf("S0: Map is composed of %d vertices and %d edges\n", 
-    nVertex, 
-    cNewline);
+            nVertex, 
+            cNewline);
     printf("S0: Min. edge value: %d\n", minValue);
     printf("S0: Max. edge value: %d\n", maxValue);
     printf("S0: Total value of edges: %d\n", totValue);
@@ -74,6 +71,7 @@ void stage0(edge_t* arrEdge, vertex_t arrVertex){
     printf("S0: Number of vertices with odd degree: %d\n", oddVertex);
     printf("S0: Number of vertices with even degree: %d\n", evenVertex);
     if (isEulerianCycle()){puts(eulerian);}
-    if (isEulerianPath()){puts(transversible);}
+    else if (isEulerianPath()){puts(transversible);}
+    else{exit(EXIT_FAILURE);}
 
 }
